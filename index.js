@@ -2,7 +2,6 @@ const next = document.getElementById('button-forward');
 const back = document.getElementById('button-back');
 const checkboxes = document.querySelectorAll('.carousel__activator');
 const cards = document.querySelectorAll('.carousel__card');
-/* html collection vs node list */
 
 const initialPageIndex = 0;
 const maxPageIndex = checkboxes.length - 1;
@@ -11,26 +10,29 @@ const focusableElementsList =
   'a, button, select, textarea, input, [tabindex="0"]';
 
 /* nur für screen reader kompabilität */
+const getFocusableElements = (current) => {
+  let focusableElements = cards[current].querySelectorAll(
+    focusableElementsList
+  );
+  return focusableElements;
+};
+
 const hideOutOfFocusCards = () => {
-  /* zuerst werden pauschal alle karten auf "unsichtbar" gesetzt */
   for (let i = 0; i < cards.length; i++) {
     cards[i].setAttribute('aria-hidden', true);
 
-    let focusableElements = cards[i].querySelectorAll(focusableElementsList);
+    let focusableElements = getFocusableElements(i);
 
-    /* für jede karte wird über alle fokussierbaren elemente iteriert */
     for (let j = 0; j < focusableElements.length; j++) {
       focusableElements[j].setAttribute('tabindex', '-1');
     }
   }
 
-  /* dann werden die 2 gerade aktiven karten wieder sichtbar gemacht */
   for (let i = 2 * currentPageIndex; i <= 2 * currentPageIndex + 1; i++) {
     cards[i].removeAttribute('aria-hidden');
 
-    let focusableElements = cards[i].querySelectorAll(focusableElementsList);
+    let focusableElements = getFocusableElements(i);
 
-    /* für jede karte wird über alle fokussierbaren elemente iteriert */
     for (let j = 0; j < focusableElements.length; j++) {
       focusableElements[j].removeAttribute('tabindex');
     }
