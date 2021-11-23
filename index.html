@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Einfache, CSS-basierte Carousel-Demo" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- <header>
+      <h1>An (Almost) Pure CSS Carousel</h1>
+    </header> -->
+    <main>
+      <h2>An (Almost) Pure CSS Carousel</h2>
+      <section class="carousel" aria-label="carousel">
+        <!-- kurze erklärung für screen reder nutzer -->
+        <p class="sr-only">
+          Der folgende Abschnitt enthält ein Karrussel-Element, in dem mehrere
+          Seiten enthalten sind, die mittels der "nächste" und "zurück" Elemente
+          durchnavigiert werden können. Pro Seite werden zwei Elemente
+          angezeigt, die sich per Tab anwählen lassen.
+        </p>
+        <!-- Wir brauchen jeweils 1 input (eine "Seite") pro 2n+1 Elemente im Carousel -->
+        <input type="radio" class="carousel__activator" hidden checked />
+        <input type="radio" class="carousel__activator" hidden />
+        <input type="radio" class="carousel__activator" hidden />
+
+        <button
+          class="carousel__control carousel__control--forward"
+          id="button-forward"
+          aria-label="Nächste Seite"
+        >
+          <span class="arrow-left" aria-hidden="true">&#8250;</span>
+        </button>
+        <button
+          class="carousel__control carousel__control--back"
+          id="button-back"
+          aria-label="Vorherige Seite"
+          hidden
+        >
+          <span class="arrow-right" aria-hidden="true">&#8249;</span>
+        </button>
+
+        <div class="carousel__track">
+          <article
+            class="carousel__card"
+            role="group"
+            aria-label="Karte 1 von 5"
+          >
+            <img
+              class="carousel__image"
+              src="./img/picture1.webp"
+              alt=""
+              width="300px"
+              height="180px"
+            />
+            <h3 class="carousel__headline headline">My Headline 1</h3>
+            <h4 class="carousel__sub-headline headline">My sub headline</h4>
+            <a class="carousel__link" href="#"
+              >Mehr lesen <span aria-hidden="true">&#8250;</span></a
+            >
+          </article>
+          <article
+            class="carousel__card"
+            role="group"
+            aria-label="Karte 2 von 5"
+          >
+            <img
+              class="carousel__image"
+              src="./img/picture2.webp"
+              alt=""
+              width="300px"
+              height="180px"
+            />
+            <h3 class="carousel__headline headline">My Headline 2</h3>
+            <h4 class="carousel__sub-headline headline">My sub headline</h4>
+            <a class="carousel__link" href="#"
+              >Mehr lesen <span aria-hidden="true">&#8250;</span></a
+            >
+          </article>
+          <article
+            class="carousel__card"
+            role="group"
+            aria-label="Karte 3 von 5"
+          >
+            <img
+              class="carousel__image"
+              src="./img/picture3.webp"
+              alt=""
+              width="300px"
+              height="180px"
+            />
+            <h3 class="carousel__headline headline">My Headline 3</h3>
+            <h4 class="carousel__sub-headline headline">My sub headline</h4>
+            <a class="carousel__link" href="#"
+              >Mehr lesen <span aria-hidden="true">&#8250;</span></a
+            >
+          </article>
+          <article
+            class="carousel__card"
+            role="group"
+            aria-label="Karte 4 von 5"
+          >
+            <img
+              class="carousel__image"
+              src="./img/picture4.webp"
+              alt=""
+              width="300px"
+              height="180px"
+            />
+            <h3 class="carousel__headline headline">My Headline 4</h3>
+            <h4 class="carousel__sub-headline headline">My sub headline</h4>
+            <a class="carousel__link" href="#"
+              >Mehr lesen <span aria-hidden="true">&#8250;</span></a
+            >
+          </article>
+          <article
+            class="carousel__card"
+            role="group"
+            aria-label="Karte 5 von 5"
+          >
+            <img
+              class="carousel__image"
+              src="./img/picture5.webp"
+              alt=""
+              width="300px"
+              height="180px"
+            />
+            <h3 class="carousel__headline headline">My Headline 5</h3>
+            <h4 class="carousel__sub-headline headline">My sub headline</h4>
+            <a class="carousel__link" href="#"
+              >Mehr lesen <span aria-hidden="true">&#8250;</span></a
+            >
+          </article>
+        </div>
+      </section>
+      <section class="explanation">
+        <article class="explanation__article">
+          <h5 class="explanation__headline headline">
+            Was passiert hier eigentlich?!
+          </h5>
+          <p class="explanation__content">
+            Carousels sind, sagen wir, interessante Website-Komponenten. Da sie
+            keine wirkliche semantische Entsprechung im HTML-Kosmos haben,
+            bleibt es am Ende des Tages meist dem Dev überlassen, wie und nach
+            welchen Maßgaben ein Carousel umgesetzt werden soll. Das kann vom
+            reinen Entwickler-Standpunkt eine recht spannende Aufgabe sein,
+            führt aber auch dazu, dass es schwierig sein kann, verbindliche
+            Specs zu formulieren (und es gibt
+            <a
+              class="explanation__link"
+              href="https://www.cre8d-design.com/2016/01/carousels/"
+              target="_blank"
+              >nicht</a
+            >
+            <a
+              class="explanation__link"
+              href="https://powerdigitalmarketing.com/blog/why-you-should-not-use-a-carousel-on-your-website/#gref"
+              target="_blank"
+              >wenige</a
+            >
+            <a
+              class="explanation__link"
+              href="https://shouldiuseacarousel.com/"
+              target="_blank"
+              >Stimmen</a
+            >, die das Carousel generell am liebsten in die Restmülltonne
+            digitaler Trends verbannen würden). Wie also ein Carousel umsetzen?
+          </p>
+          <p class="explanation__content">
+            Diese konkrete Inkarnation bedient sich der guten alten radio-box,
+            über deren "checked"-Attribut wir die aktuelle Seite indizieren
+            können. Bei zwei Elementen pro Seite + einem weiteren, das am
+            rechten Rand angeteasert werden soll, ergibt sich die Notwendigkeit
+            einer "Seite" für jeweils 2n+1 Elemente; bei 5 Karten im Carousel
+            also 3 Seiten:
+          </p>
+          <pre>
+            <code>
+              &lt;input type="radio" class="carousel__activator" hidden checked/&gt;
+              &lt;input type="radio" class="carousel__activator" hidden/&gt;
+              &lt;input type="radio" class="carousel__activator" hidden /&gt;
+            </code>
+          </pre>
+          <p class="explanation__content">
+            So weit, so gut. Jetzt brauchen wir nur noch einen Weg, dem Carousel
+            mitzuteilen, dass es sich beim Durchklicken der Seiten doch bitte
+            bewegen mag. Und das am besten so weit es geht in CSS, um möglichst
+            wenig Verantwortung an unser javascript auszulagern. Enter:
+            general-sibling-selector! Mit ~ und etwas Mut zur Verbosity können
+            wir in unserem CSS quasi eine switch/case-Funktionalität emulieren:
+          </p>
+          <pre>
+            <code>
+              .carousel__activator:nth-of-type(1):checked ~ .carousel__track {
+                transform: translateX(0px);
+              }
+              .carousel__activator:nth-of-type(2):checked ~ .carousel__track {
+                transform: translateX(-620px);
+              }
+              .carousel__activator:nth-of-type(3):checked ~ .carousel__track {
+                transform: translateX(-1240px);
+              }
+            </code>
+          </pre>
+          <p class="explanation__content">
+            Wenn also die erste "Seite" gechecked ist, schieben wir unseren
+            carousel__track auf den Anfang, ist die zweite Seite gechecked,
+            schieben wir ihn um die width von zwei Karten + gaps (also jeweils
+            620px) nach links, usw. Das ganze ließe sich natürlich durch den
+            Einsatz von Variablen oder eines for-loops in bspw. Scss noch etwas
+            effizienter gestalten, ist aber auch in Barebones-CSS mMn. noch
+            maintainable, da wesentlich mehr als 3-5 Carousel-Seiten auch von
+            einem Usability-Standpunkt nicht sinnig erscheinen.
+          </p>
+          <p class="explanation__content">
+            Letzter Halt: Javascript. Unser js-Code muss jetzt eigentlich nicht
+            viel mehr tun, als das "checked"-Attribut je nach aktueller Seite
+            auf die korrespondierende radio-box zu setzen und ggf. die
+            Navigationspfeile zu verstecken.
+          </p>
+          <pre>
+            <code>
+              const handleCardTransfer = (forward) => {
+                checkboxes[currentPageIndex].removeAttribute('checked');
+                forward ? currentPageIndex++ : currentPageIndex--;
+                checkboxes[currentPageIndex].setAttribute('checked', true);
+              };
+            </code>
+          </pre>
+          <pre>
+            <code>
+              const checkForUnmountingArrows = () => {
+                if (currentPageIndex === maxPageIndex) {
+                  next.setAttribute('hidden', true);
+                }
+                if (currentPageIndex !== initialPageIndex && back.hasAttribute('hidden')) {
+                  back.removeAttribute('hidden');
+                }
+                if (currentPageIndex === initialPageIndex) {
+                  back.setAttribute('hidden', true);
+                }
+                if (currentPageIndex !== maxPageIndex && next.hasAttribute('hidden')) {
+                  next.removeAttribute('hidden');
+                }
+              };
+            </code>
+          </pre>
+          <p class="explanation__content">
+            Damit haben wir ein funktionales, leichtgewichtiges Carousel, das
+            aber durchaus noch Optimierungspotenzial aufweist: Zuallererst
+            einmal wäre es natürlich schön, das Carousel voll responsive zu
+            machen. Zudem bringt der grundlegende Ansatz den Nachteil mit sich,
+            dass wir mit den radio-boxes semantisch unsinniges Markup auf
+            unserer Seite haben, wobei sich das bei Carousels aus den bereits
+            angesprochenen Gründen ohnehin kaum vermeiden lässt. So why not go
+            for the fun approach? Was also vorerst noch bleibt, ist das Carousel
+            etwas ansehnlicher zu machen und wir sind durch!
+          </p>
+          <p class="explanation__content">Oder nicht...?</p>
+        </article>
+        <article class="explanation__article">
+          <h5 class="explanation__headline headline">
+            So what about accessibility?
+          </h5>
+          <p class="explanation__content">
+            Im Sinne von Nutzerfreundlichkeit und Effektivität kann man über die
+            Implementierung von Carousels sicherlich diskutieren. Was aber fest
+            steht ist, dass sie idR. eine nicht zu unterschätzende Hürde für die
+            Accesibility einer Webseite darstellen. Wie bereits gesagt haben
+            Carousels keine wirkliche Entsprechung in der herkömmlichen
+            HTML-Struktur einer Seite und können Nutzer, die auf assistive
+            Technologien wie Screenreader angewiesen sind, vor Hindernisse
+            stellen und die Nutzbarkeit einer Seite erheblich einschränken.
+            Unter diesem Aspekt scheint es sinnvoll, das Carousel für diese
+            Nutzer zu optimieren und verständlich zu machen.
+          </p>
+          <p class="explanation__content">
+            Das heißt zuerst mal, sinnvolle, aussagekräftige aria-labels
+            hinzuzufügen, rein visuelle Hilfelemente für Screenreader unsichtbar
+            zu machen, semantische Elemente wie "buttons" für Inputs zu nutzen
+            usw. (die genauen Guidelines, an denen ich mich hierfür orientiert
+            habe, gibt es
+            <a
+              class="explanation__link"
+              target="_blank"
+              href="https://dev.to/jasonwebb/how-to-build-a-more-accessible-carousel-or-slider-35lp"
+              >hier</a
+            >
+            ):
+          </p>
+          <pre>
+            <code>
+ 
+            &lt;button
+              class="carousel__control carousel__control--back"
+              id="button-back"
+              aria-label="Vorherige Seite"
+              hidden
+            &gt;
+              &lt;span class="arrow-right" aria-hidden="true"&gt;&#8249;&lt;/span&gt;
+            &lt;/button&gt;
+            </code>
+          </pre>
+          <p class="explanation__content">
+            Abgesehen vom Markup ist es aber auch nötig, das Carousel technisch
+            accessible zu machen, um Usern, die die Webseite per Keyboard
+            navigieren, die Nutzung unserer Komponente zu ermöglichen. Konkret
+            sollten alle nicht auf der aktuellen Seite angezeigten Karten für
+            den Nutzer nicht per Tab-Navigation erreichbar sein und auch nicht
+            vom Screen-Reader announced werden, bevor sie nicht in den Viewport
+            des Carousel gelangen.
+          </p>
+          <p class="explanation__content">
+            Um das zu erreichen brauchen wir noch ein paar zusätzliche Zeilen
+            javascript, die die dynamische Zuweisung der Attribute "aria-hidden"
+            und "tabindex" übernehmen, damit tatsächlich nur die beiden gerade
+            aktiven Karten für die Navigation zur Verfügung stehen:
+          </p>
+          <pre>
+            <code>
+            const hideOutOfFocusCards = () => {
+              /* zuerst werden pauschal alle karten auf "unsichtbar" gesetzt */
+              for (let i = 0; i < cards.length; i++) {
+                cards[i].setAttribute('aria-hidden', true);
+            
+                let focusableElements = cards[i].querySelectorAll(focusableElementsList);
+            
+                /* für jede karte wird über alle fokussierbaren elemente iteriert */
+                for (let j = 0; j < focusableElements.length; j++) {
+                  focusableElements[j].setAttribute('tabindex', '-1');
+                }
+              }
+            
+              /* dann werden die 2 gerade aktiven karten wieder sichtbar gemacht */
+              for (let i = 2 * currentPageIndex; i <= 2 * currentPageIndex + 1; i++) {
+                cards[i].removeAttribute('aria-hidden');
+            
+                let focusableElements = cards[i].querySelectorAll(focusableElementsList);
+            
+                /* für jede karte wird über alle fokussierbaren elemente iteriert */
+                for (let j = 0; j < focusableElements.length; j++) {
+                  focusableElements[j].removeAttribute('tabindex');
+                }
+              }
+            };
+            </code>
+          </pre>
+          <p class="explanation__content">
+            Damit ist das Carousel nicht nur wesentlich nutzerfreundlicher für
+            User, die auf assistive Technologien angewiesen sind, sondern auch
+            davor gefeit, durch rücksichtslose Tab-Navigation sehender User auf
+            gerade nicht angezeigte Karten ungewolltes Verhalten aufzuweisen.
+            Als praktischen Nebeneffekt lässt sich die Funktion zur Ausblendung
+            nicht aktiver Karten bei Bedarf auch für die Zuweisung von
+            style-Klassen auf diese Elemente nutzen.
+          </p>
+        </article>
+      </section>
+    </main>
+    <script src="index.js"></script>
+  </body>
+</html>
