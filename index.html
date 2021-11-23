@@ -181,11 +181,11 @@
             also 3 Seiten:
           </p>
           <pre>
-            <code>
-              &lt;input type="radio" class="carousel__activator" hidden checked/&gt;
-              &lt;input type="radio" class="carousel__activator" hidden/&gt;
-              &lt;input type="radio" class="carousel__activator" hidden /&gt;
-            </code>
+            
+    &lt;input type="radio" class="carousel__activator" hidden checked/&gt;
+    &lt;input type="radio" class="carousel__activator" hidden/&gt;
+    &lt;input type="radio" class="carousel__activator" hidden /&gt;
+            
           </pre>
           <p class="explanation__content">
             So weit, so gut. Jetzt brauchen wir nur noch einen Weg, dem Carousel
@@ -196,17 +196,17 @@
             wir in unserem CSS quasi eine switch/case-Funktionalität emulieren:
           </p>
           <pre>
-            <code>
-              .carousel__activator:nth-of-type(1):checked ~ .carousel__track {
-                transform: translateX(0px);
-              }
-              .carousel__activator:nth-of-type(2):checked ~ .carousel__track {
-                transform: translateX(-620px);
-              }
-              .carousel__activator:nth-of-type(3):checked ~ .carousel__track {
-                transform: translateX(-1240px);
-              }
-            </code>
+            
+    .carousel__activator:nth-of-type(1):checked ~ .carousel__track {
+      transform: translateX(0px);
+    }
+    .carousel__activator:nth-of-type(2):checked ~ .carousel__track {
+      transform: translateX(-620px);
+    }
+    .carousel__activator:nth-of-type(3):checked ~ .carousel__track {
+      transform: translateX(-1240px);
+    }
+            
           </pre>
           <p class="explanation__content">
             Wenn also die erste "Seite" gechecked ist, schieben wir unseren
@@ -225,31 +225,31 @@
             Navigationspfeile zu verstecken.
           </p>
           <pre>
-            <code>
-              const handleCardTransfer = (forward) => {
-                checkboxes[currentPageIndex].removeAttribute('checked');
-                forward ? currentPageIndex++ : currentPageIndex--;
-                checkboxes[currentPageIndex].setAttribute('checked', true);
-              };
-            </code>
+            
+    const handleCardTransfer = (forward) => {
+      checkboxes[currentPageIndex].removeAttribute('checked');
+      forward ? currentPageIndex++ : currentPageIndex--;
+      checkboxes[currentPageIndex].setAttribute('checked', true);
+    };
+            
           </pre>
           <pre>
-            <code>
-              const checkForUnmountingArrows = () => {
-                if (currentPageIndex === maxPageIndex) {
-                  next.setAttribute('hidden', true);
-                }
-                if (currentPageIndex !== initialPageIndex && back.hasAttribute('hidden')) {
-                  back.removeAttribute('hidden');
-                }
-                if (currentPageIndex === initialPageIndex) {
-                  back.setAttribute('hidden', true);
-                }
-                if (currentPageIndex !== maxPageIndex && next.hasAttribute('hidden')) {
-                  next.removeAttribute('hidden');
-                }
-              };
-            </code>
+            
+    const checkForUnmountingArrows = () => {
+      if (currentPageIndex === maxPageIndex) {
+        next.setAttribute('hidden', true);
+      }
+      if (currentPageIndex !== initialPageIndex && back.hasAttribute('hidden')) {
+        back.removeAttribute('hidden');
+      }
+      if (currentPageIndex === initialPageIndex) {
+        back.setAttribute('hidden', true);
+      }
+      if (currentPageIndex !== maxPageIndex && next.hasAttribute('hidden')) {
+        next.removeAttribute('hidden');
+      }
+    };
+            
           </pre>
           <p class="explanation__content">
             Damit haben wir ein funktionales, leichtgewichtiges Carousel, das
@@ -296,17 +296,16 @@
             ):
           </p>
           <pre>
-            <code>
  
-            &lt;button
-              class="carousel__control carousel__control--back"
-              id="button-back"
-              aria-label="Vorherige Seite"
-              hidden
-            &gt;
-              &lt;span class="arrow-right" aria-hidden="true"&gt;&#8249;&lt;/span&gt;
-            &lt;/button&gt;
-            </code>
+    &lt;button
+      class="carousel__control carousel__control--back"
+      id="button-back"
+      aria-label="Vorherige Seite"
+      hidden
+    &gt;
+      &lt;span class="arrow-right" aria-hidden="true"&gt;&#8249;&lt;/span&gt;
+    &lt;/button&gt;
+           
           </pre>
           <p class="explanation__content">
             Abgesehen vom Markup ist es aber auch nötig, das Carousel technisch
@@ -324,33 +323,32 @@
             aktiven Karten für die Navigation zur Verfügung stehen:
           </p>
           <pre>
-            <code>
-            const hideOutOfFocusCards = () => {
-              /* zuerst werden pauschal alle karten auf "unsichtbar" gesetzt */
-              for (let i = 0; i < cards.length; i++) {
-                cards[i].setAttribute('aria-hidden', true);
-            
-                let focusableElements = cards[i].querySelectorAll(focusableElementsList);
-            
-                /* für jede karte wird über alle fokussierbaren elemente iteriert */
-                for (let j = 0; j < focusableElements.length; j++) {
-                  focusableElements[j].setAttribute('tabindex', '-1');
-                }
-              }
-            
-              /* dann werden die 2 gerade aktiven karten wieder sichtbar gemacht */
-              for (let i = 2 * currentPageIndex; i <= 2 * currentPageIndex + 1; i++) {
-                cards[i].removeAttribute('aria-hidden');
-            
-                let focusableElements = cards[i].querySelectorAll(focusableElementsList);
-            
-                /* für jede karte wird über alle fokussierbaren elemente iteriert */
-                for (let j = 0; j < focusableElements.length; j++) {
-                  focusableElements[j].removeAttribute('tabindex');
-                }
-              }
-            };
-            </code>
+       
+    const hideOutOfFocusCards = () => {
+      /* zuerst werden pauschal alle karten auf "unsichtbar" gesetzt */
+      for (let i = 0; i < cards.length; i++) {
+        cards[i].setAttribute('aria-hidden', true);
+    
+        let focusableElements = cards[i].querySelectorAll(focusableElementsList);
+    
+        /* für jede karte wird über alle fokussierbaren elemente iteriert */
+        for (let j = 0; j < focusableElements.length; j++) {
+          focusableElements[j].setAttribute('tabindex', '-1');
+        }
+      }
+    
+      /* dann werden die 2 gerade aktiven karten wieder sichtbar gemacht */
+      for (let i = 2 * currentPageIndex; i <= 2 * currentPageIndex + 1; i++) {
+        cards[i].removeAttribute('aria-hidden');
+    
+        let focusableElements = cards[i].querySelectorAll(focusableElementsList);
+    
+        /* für jede karte wird über alle fokussierbaren elemente iteriert */
+        for (let j = 0; j < focusableElements.length; j++) {
+          focusableElements[j].removeAttribute('tabindex');
+        }
+      }
+    };
           </pre>
           <p class="explanation__content">
             Damit ist das Carousel nicht nur wesentlich nutzerfreundlicher für
