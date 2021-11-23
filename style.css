@@ -59,6 +59,7 @@ main {
   overflow: hidden;
   margin-top: 10rem;
   border-radius: 15px;
+  padding: 0 10px;
 }
 
 .carousel__control {
@@ -96,7 +97,7 @@ main {
 
 .carousel__track {
   display: inline-flex;
-  gap: 10px;
+  /* gap: 10px; */
   padding-bottom: 0.8rem; /* damit der box shadow sichtbar bleibt */
   padding-top: 0.13rem;
   transition: 600ms ease-in;
@@ -105,10 +106,20 @@ main {
 .carousel__card {
   padding-bottom: 1rem;
   overflow: hidden;
+  margin-left: 5px;
+  margin-right: 5px;
   border-radius: 15px;
   background: linear-gradient(to top left, rgb(231, 231, 231), #fff 30%);
   box-shadow: 5px 5px 5px rgb(231, 231, 231);
   transition: 100ms ease-in;
+}
+
+.carousel__card:first-of-type {
+  margin-left: 0;
+}
+
+.carousel__card:last-of-type {
+  margin-right: 0;
 }
 
 .carousel__card:hover,
