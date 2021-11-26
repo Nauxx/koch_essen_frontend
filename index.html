@@ -116,6 +116,10 @@
             Carousel: qu'est-ce que c'est?
           </h5>
           <p class="explanation__content">
+            Grundlegend brauchen wir eigentlich nur zwei Dinge, um unser
+            Carousel mit Funktionalität auszustatten: Eine Möglichkeit, die
+            aktuell angezeigte Seite zu indizieren und einen Mechanismus, der
+            die Anzeige basierend auf der aktuellen Seite dynamisch ändert.
             <!-- <a
               class="explanation__link"
               href="https://www.cre8d-design.com/2016/01/carousels/"
@@ -139,27 +143,27 @@
             > -->
           </p>
           <p class="explanation__content">
-            Diese konkrete Inkarnation bedient sich der guten alten radio-box,
-            über deren "checked"-Attribut wir die aktuelle Seite indizieren
-            können. Bei zwei Elementen pro Seite + einem weiteren, das am
-            rechten Rand angeteasert werden soll, ergibt sich die Notwendigkeit
-            einer "Seite" für jeweils 2n+1 Elemente; bei 5 Karten im Carousel
-            also 3 Seiten:
+            Ersteres lässt sich ganz einfach über ein data-attribute erreichen,
+            dass wir unserem Carousel hinzufügen und das uns Auskunft über die
+            aktuell angewählte Seite gibt:
           </p>
           <pre>
             
-    &lt;input type="radio" class="carousel__activator" hidden checked/&gt;
-    &lt;input type="radio" class="carousel__activator" hidden/&gt;
-    &lt;input type="radio" class="carousel__activator" hidden /&gt;
+    &lt;section
+    class="carousel"
+    id="carousel"
+    aria-label="carousel"
+    data-page="1"
+    &gt;
             
           </pre>
           <p class="explanation__content">
             So weit, so gut. Jetzt brauchen wir nur noch einen Weg, dem Carousel
-            mitzuteilen, dass es sich beim Durchklicken der Seiten doch bitte
-            bewegen mag. Und das am besten so weit es geht in CSS, um möglichst
-            wenig Verantwortung an unser javascript auszulagern. Enter:
-            general-sibling-selector! Mit ~ und etwas Mut zur Verbosity können
-            wir in unserem CSS quasi eine switch/case-Funktionalität emulieren:
+            mitzuteilen, dass es sich bei einer Änderung der aktuellen Seite
+            doch bitte bewegen mag. Und das am besten so weit es geht in CSS, um
+            möglichst wenig Verantwortung an unser javascript auszulagern. Dies
+            können wir z.B. tun, indem wir in CSS einen switch/case quasi
+            "nachbauen":
           </p>
           <pre>
             
@@ -178,20 +182,20 @@
             
           </pre>
           <p class="explanation__content">
-            Wenn also die erste "Seite" gechecked ist, schieben wir unseren
-            carousel__track auf den Anfang, ist die zweite Seite gechecked,
-            schieben wir ihn um die width von zwei Karten + gaps (also jeweils
-            620px) nach links, usw. Das ganze ließe sich natürlich durch den
-            Einsatz von Variablen oder eines for-loops in bspw. Scss noch etwas
-            effizienter gestalten, ist aber auch in Barebones-CSS mMn. noch
-            maintainable, da wesentlich mehr als 3-5 Carousel-Seiten auch von
-            einem Usability-Standpunkt nicht sinnig erscheinen.
+            Sind wir also auf Seite eins, schieben wir unseren carousel__track
+            auf den Anfang, sind wir auf Seite zwei, schieben wir ihn um die
+            width von zwei Karten + gaps (also jeweils 620px) nach links, usw.
+            Das ist zwar etwas umständlich, ließe sich aber durchaus durch den
+            Einsatz von css-variablen oder eines for-loops in bspw. Scss noch
+            etwas effizienter gestalten. Allerdings ist dieser Ansatz selbst in
+            Barebones-CSS mMn. noch maintainable, da wesentlich mehr als 3-5
+            Carousel-Seiten auch von einem Usability-Standpunkt nicht sinnig
+            erscheinen.
           </p>
           <p class="explanation__content">
             Letzter Halt: Javascript. Unser js-Code muss jetzt eigentlich nicht
-            viel mehr tun, als das "checked"-Attribut je nach aktueller Seite
-            auf die korrespondierende radio-box zu setzen und ggf. die
-            Navigationspfeile zu verstecken.
+            viel mehr tun, als das data-attribute je nach aktueller Seite zu
+            aktualisieren und ggf. die Navigationspfeile zu verstecken.
           </p>
           <pre>
             
@@ -203,47 +207,71 @@
           </pre>
           <pre>
             
-    const checkForUnmountingArrows = () => {
-      if (currentPageIndex === maxPageIndex) {
+    let handleArrows = () => {
+      if (state.currentPageIndex === maxPageIndex) {
         next.setAttribute('hidden', true);
       }
-      if (currentPageIndex !== initialPageIndex && back.hasAttribute('hidden')) {
+      if (
+        state.currentPageIndex !== initialPageIndex &&
+        back.hasAttribute('hidden')
+      ) {
         back.removeAttribute('hidden');
       }
-      if (currentPageIndex === initialPageIndex) {
+      if (state.currentPageIndex === initialPageIndex) {
         back.setAttribute('hidden', true);
       }
-      if (currentPageIndex !== maxPageIndex && next.hasAttribute('hidden')) {
+      if (
+        state.currentPageIndex !== maxPageIndex &&
+        next.hasAttribute('hidden')
+      ) {
         next.removeAttribute('hidden');
       }
+    };
     };
             
           </pre>
           <p class="explanation__content">
-            Damit haben wir ein funktionales, leichtgewichtiges Carousel, das
-            aber durchaus noch Optimierungspotenzial aufweist: Zuallererst
-            einmal wäre es natürlich schön, das Carousel voll responsive zu
-            machen. Zudem bringt der grundlegende Ansatz den Nachteil mit sich,
-            dass wir mit den radio-boxes semantisch unsinniges Markup auf
-            unserer Seite haben, wobei sich das bei Carousels aus den bereits
-            angesprochenen Gründen ohnehin kaum vermeiden lässt. So why not go
-            for the fun approach? Was also vorerst noch bleibt, ist das Carousel
-            etwas ansehnlicher zu machen und wir sind durch!
+            Damit haben wir ein funktionales, leichtgewichtiges Carousel mit
+            minimalem javascript-Anteil. Ganz fertig sind wir aber trotzdem noch
+            nicht...
           </p>
-          <p class="explanation__content">Oder nicht...?</p>
+          <p class="explanation__content">
+            Ganz fertig sind wir aber trotzdem noch nicht...
+          </p>
         </article>
         <article class="explanation__article">
           <h5 class="explanation__headline explanation__headline--main">
             So what about accessibility?
           </h5>
           <p class="explanation__content">
-            Im Sinne von Nutzerfreundlichkeit und Effektivität kann man über die
-            Implementierung von Carousels sicherlich diskutieren. Was aber fest
-            steht ist, dass sie idR. eine nicht zu unterschätzende Hürde für die
-            Accesibility einer Webseite darstellen. Wie bereits gesagt haben
-            Carousels keine wirkliche Entsprechung in der herkömmlichen
-            HTML-Struktur einer Seite und können Nutzer, die auf assistive
-            Technologien wie Screenreader angewiesen sind, vor Hindernisse
+            Über die Nutzerfreundlichkeit und Effektivität von Carousels kann
+            <a
+              class="explanation__link"
+              href="https://www.cre8d-design.com/2016/01/carousels/"
+              target="_blank"
+              rel="noreferrer"
+              >man</a
+            >
+            <a
+              class="explanation__link"
+              href="https://powerdigitalmarketing.com/blog/why-you-should-not-use-a-carousel-on-your-website/#gref"
+              target="_blank"
+              rel="noreferrer"
+              >sicherlich</a
+            >
+            <a
+              class="explanation__link"
+              href="https://shouldiuseacarousel.com/"
+              target="_blank"
+              rel="noreferrer"
+              >diskutieren.</a
+            >
+            Was aber fest steht ist, dass sie idR. eine nicht zu unterschätzende
+            Hürde für die Accesibility einer Webseite darstellen. Da Carousels
+            keine wirkliche Entsprechung in der herkömmlichen HTML-Struktur
+            einer Webseite haben und sehr unterschiedlich umgesetzt werden
+            können, können sie Nutzer, die auf assistive Technologien wie
+            Screenreader angewiesen sind, vor unvorhergesehene Hindernisse
             stellen und die Nutzbarkeit einer Seite erheblich einschränken.
             Unter diesem Aspekt scheint es sinnvoll, das Carousel für diese
             Nutzer zu optimieren und verständlich zu machen.
@@ -252,16 +280,8 @@
             Das heißt zuerst mal, sinnvolle, aussagekräftige aria-labels
             hinzuzufügen, rein visuelle Hilfelemente für Screenreader unsichtbar
             zu machen, semantische Elemente wie "buttons" für Inputs zu nutzen
-            usw. (die genauen Guidelines, an denen ich mich hierfür orientiert
-            habe, gibt es
-            <a
-              class="explanation__link"
-              target="_blank"
-              href="https://dev.to/jasonwebb/how-to-build-a-more-accessible-carousel-or-slider-35lp"
-              rel="noreferrer"
-              >hier</a
-            >
-            ):
+            usw. Jedes Element unseres Carousels sollte ausreichend beschrieben
+            und seine Rolle und Funktion verständlich sein:
           </p>
           <pre>
  
@@ -290,42 +310,23 @@
             und "tabindex" übernehmen, damit tatsächlich nur die beiden gerade
             aktiven Karten für die Navigation zur Verfügung stehen:
           </p>
-          <!-- <pre>
+          <pre>
        
     let handleOutOfFocusCards = () => {
-      for (let i = 0; i < cards.length; i++) {
-        cards[i].setAttribute('aria-hidden', true);
-        cards[i].classList.add('carousel__card--inactive');
+      for (let i = 0; i &lt; cards.length; i++) {
+        cards[i].setAttribute( 'aria-hidden', true );
+        cards[i].classList.add( 'carousel__card--inactive' );
 
         let focusableElements = cards[i].querySelectorAll(
-          'a, button, select, textarea, input, [tabindex="0"]'
+          'a, button, select, textarea, input, [ tabindex="0" ]'
         );
 
-        for (let j = 0; j < focusableElements.length; j++) {
-          focusableElements[j].setAttribute('tabindex', '-1');
-        }
-      }
-
-      for (
-        let i = 2 * state.currentPageIndex;
-        i <= 2 * state.currentPageIndex + 1;
-        i++
-      ) {
-        if (i < cards.length) {
-          cards[i].removeAttribute('aria-hidden');
-          cards[i].classList.remove('carousel__card--inactive');
-
-          let focusableElements = cards[i].querySelectorAll(
-            'a, button, select, textarea, input, [tabindex="0"]'
-          );
-
-          for (let j = 0; j < focusableElements.length; j++) {
-            focusableElements[j].removeAttribute('tabindex');
-          }
+        for (let j = 0; j &lt; focusableElements.length; j++) {
+          focusableElements[j].setAttribute( 'tabindex', '-1' );
         }
       }
     };
-          </pre> -->
+          </pre>
           <p class="explanation__content">
             Damit ist das Carousel nicht nur wesentlich nutzerfreundlicher für
             User, die auf assistive Technologien angewiesen sind, sondern auch
