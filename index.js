@@ -1,79 +1,93 @@
-const next = document.getElementById('button-forward');
-const back = document.getElementById('button-back');
-const checkboxes = document.querySelectorAll('.carousel__activator');
-const cards = document.querySelectorAll('.carousel__card');
+document.addEventListener('DOMContentLoaded', () => {
+  var carousel = (element) => {
+    let carousel = document.getElementById(element);
+    let next = carousel.querySelector('#button-forward');
+    let back = carousel.querySelector('#button-back');
+    let cards = carousel.querySelectorAll('.carousel__card');
 
-const initialPageIndex = 0;
-const maxPageIndex = checkboxes.length - 1;
-let currentPageIndex = initialPageIndex;
-const focusableElementsList =
-  'a, button, select, textarea, input, [tabindex="0"]';
+    let initialPageIndex = 0;
+    let maxPageIndex = Math.ceil(cards.length / 2) - 1;
 
-/* nur für screen reader kompabilität */
-const getFocusableElements = (current) => {
-  let focusableElements = cards[current].querySelectorAll(
-    focusableElementsList
-  );
-  return focusableElements;
-};
+    let state = { currentPageIndex: 0 };
 
-const hideOutOfFocusCards = () => {
-  for (let i = 0; i < cards.length; i++) {
-    cards[i].setAttribute('aria-hidden', true);
+    let handleOutOfFocusCards = () => {
+      for (let i = 0; i < cards.length; i++) {
+        cards[i].setAttribute('aria-hidden', true);
+        cards[i].classList.add('carousel__card--inactive');
 
-    let focusableElements = getFocusableElements(i);
+        let focusableElements = cards[i].querySelectorAll(
+          'a, button, select, textarea, input, [tabindex="0"]'
+        );
 
-    for (let j = 0; j < focusableElements.length; j++) {
-      focusableElements[j].setAttribute('tabindex', '-1');
-    }
-  }
+        for (let j = 0; j < focusableElements.length; j++) {
+          focusableElements[j].setAttribute('tabindex', '-1');
+        }
+      }
 
-  for (let i = 2 * currentPageIndex; i <= 2 * currentPageIndex + 1; i++) {
-    cards[i].removeAttribute('aria-hidden');
+      for (
+        let i = 2 * state.currentPageIndex;
+        i <= 2 * state.currentPageIndex + 1;
+        i++
+      ) {
+        if (i < cards.length) {
+          cards[i].removeAttribute('aria-hidden');
+          cards[i].classList.remove('carousel__card--inactive');
 
-    let focusableElements = getFocusableElements(i);
+          let focusableElements = cards[i].querySelectorAll(
+            'a, button, select, textarea, input, [tabindex="0"]'
+          );
 
-    for (let j = 0; j < focusableElements.length; j++) {
-      focusableElements[j].removeAttribute('tabindex');
-    }
-  }
-};
+          for (let j = 0; j < focusableElements.length; j++) {
+            focusableElements[j].removeAttribute('tabindex');
+          }
+        }
+      }
+    };
+    handleOutOfFocusCards();
 
-hideOutOfFocusCards();
+    let handleArrows = () => {
+      if (state.currentPageIndex === maxPageIndex) {
+        next.setAttribute('hidden', true);
+      }
+      if (
+        state.currentPageIndex !== initialPageIndex &&
+        back.hasAttribute('hidden')
+      ) {
+        back.removeAttribute('hidden');
+      }
+      if (state.currentPageIndex === initialPageIndex) {
+        back.setAttribute('hidden', true);
+      }
+      if (
+        state.currentPageIndex !== maxPageIndex &&
+        next.hasAttribute('hidden')
+      ) {
+        next.removeAttribute('hidden');
+      }
+    };
 
-/* hideOutOfFocusCards() lässt sich praktischerweise bei Bedarf
-auch für die zuweisung von styleklassen für die "angeteasterten" 
-karten verwenden */
+    let handleCardTransfer = (forward) => {
+      forward ? state.currentPageIndex++ : state.currentPageIndex--;
+      carousel.dataset.page = state.currentPageIndex + 1;
+    };
 
-const handleCardTransfer = (forward) => {
-  checkboxes[currentPageIndex].removeAttribute('checked');
-  forward ? currentPageIndex++ : currentPageIndex--;
-  checkboxes[currentPageIndex].setAttribute('checked', true);
-};
+    let render = () => {
+      handleArrows();
+      handleOutOfFocusCards();
+    };
 
-const checkForUnmountingArrows = () => {
-  if (currentPageIndex === maxPageIndex) {
-    next.setAttribute('hidden', true);
-  }
-  if (currentPageIndex !== initialPageIndex && back.hasAttribute('hidden')) {
-    back.removeAttribute('hidden');
-  }
-  if (currentPageIndex === initialPageIndex) {
-    back.setAttribute('hidden', true);
-  }
-  if (currentPageIndex !== maxPageIndex && next.hasAttribute('hidden')) {
-    next.removeAttribute('hidden');
-  }
-};
+    next.addEventListener('click', () => {
+      handleCardTransfer(true);
+      render();
+    });
 
-next.addEventListener('click', () => {
-  handleCardTransfer(true);
-  checkForUnmountingArrows();
-  hideOutOfFocusCards();
-});
+    back.addEventListener('click', () => {
+      handleCardTransfer(false);
+      render();
+    });
 
-back.addEventListener('click', () => {
-  handleCardTransfer(false);
-  checkForUnmountingArrows();
-  hideOutOfFocusCards();
+    return carousel;
+  };
+
+  carousel('carousel');
 });

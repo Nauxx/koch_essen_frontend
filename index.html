@@ -11,7 +11,13 @@
   <body>
     <main>
       <h2>An (Almost) Pure CSS Carousel</h2>
-      <section class="carousel" aria-label="carousel">
+
+      <section
+        class="carousel"
+        id="carousel"
+        aria-label="carousel"
+        data-page="1"
+      >
         <!-- kurze erklärung für screen reder nutzer -->
         <p class="sr-only">
           Der folgende Abschnitt enthält ein Karrussel-Element, in dem mehrere
@@ -46,13 +52,7 @@
             role="group"
             aria-label="Karte 1 von 5"
           >
-            <img
-              class="carousel__image"
-              src="./img/picture1.webp"
-              alt=""
-              width="300px"
-              height="180px"
-            />
+            <img class="carousel__image" src="./img/picture1.webp" alt="" />
             <h3 class="carousel__headline headline">Headline 1</h3>
             <h4 class="carousel__sub-headline headline">Sub headline</h4>
             <a class="carousel__link" href="#"
@@ -64,13 +64,7 @@
             role="group"
             aria-label="Karte 2 von 5"
           >
-            <img
-              class="carousel__image"
-              src="./img/picture2.webp"
-              alt=""
-              width="300px"
-              height="180px"
-            />
+            <img class="carousel__image" src="./img/picture2.webp" alt="" />
             <h3 class="carousel__headline headline">Headline 2</h3>
             <h4 class="carousel__sub-headline headline">Sub headline</h4>
             <a class="carousel__link" href="#"
@@ -82,13 +76,7 @@
             role="group"
             aria-label="Karte 3 von 5"
           >
-            <img
-              class="carousel__image"
-              src="./img/picture3.webp"
-              alt=""
-              width="300px"
-              height="180px"
-            />
+            <img class="carousel__image" src="./img/picture3.webp" alt="" />
             <h3 class="carousel__headline headline">Headline 3</h3>
             <h4 class="carousel__sub-headline headline">Sub headline</h4>
             <a class="carousel__link" href="#"
@@ -100,13 +88,7 @@
             role="group"
             aria-label="Karte 4 von 5"
           >
-            <img
-              class="carousel__image"
-              src="./img/picture4.webp"
-              alt=""
-              width="300px"
-              height="180px"
-            />
+            <img class="carousel__image" src="./img/picture4.webp" alt="" />
             <h3 class="carousel__headline headline">Headline 4</h3>
             <h4 class="carousel__sub-headline headline">Sub headline</h4>
             <a class="carousel__link" href="#"
@@ -118,13 +100,7 @@
             role="group"
             aria-label="Karte 5 von 5"
           >
-            <img
-              class="carousel__image"
-              src="./img/picture5.webp"
-              alt=""
-              width="300px"
-              height="180px"
-            />
+            <img class="carousel__image" src="./img/picture5.webp" alt="" />
             <h3 class="carousel__headline headline">Headline 5</h3>
             <h4 class="carousel__sub-headline headline">Sub headline</h4>
             <a class="carousel__link" href="#"
@@ -133,41 +109,34 @@
           </article>
         </div>
       </section>
+
       <section class="explanation">
         <article class="explanation__article">
-          <h5 class="explanation__headline headline">
+          <h5 class="explanation__headline explanation__headline--main">
             Carousel: qu'est-ce que c'est?
           </h5>
           <p class="explanation__content">
-            Carousels sind, sagen wir, interessante Website-Komponenten. Da sie
-            keine wirkliche semantische Entsprechung im HTML-Kosmos haben,
-            bleibt es am Ende des Tages meist dem Dev überlassen, wie und nach
-            welchen Maßgaben ein Carousel umgesetzt werden soll. Das kann vom
-            reinen Entwickler-Standpunkt eine recht spannende Aufgabe sein,
-            führt aber auch dazu, dass es schwierig sein kann, verbindliche
-            Specs zu formulieren (und es gibt
-            <a
+            <!-- <a
               class="explanation__link"
               href="https://www.cre8d-design.com/2016/01/carousels/"
               target="_blank"
               rel="noreferrer"
-              >nicht</a
+              ></a
             >
             <a
               class="explanation__link"
               href="https://powerdigitalmarketing.com/blog/why-you-should-not-use-a-carousel-on-your-website/#gref"
               target="_blank"
               rel="noreferrer"
-              >wenige</a
+              ></a
             >
             <a
               class="explanation__link"
               href="https://shouldiuseacarousel.com/"
               target="_blank"
               rel="noreferrer"
-              >Stimmen</a
-            >, die das Carousel generell am liebsten in die Restmülltonne
-            digitaler Trends verbannen würden). Wie also ein Carousel umsetzen?
+              ></a
+            > -->
           </p>
           <p class="explanation__content">
             Diese konkrete Inkarnation bedient sich der guten alten radio-box,
@@ -194,14 +163,17 @@
           </p>
           <pre>
             
-    .carousel__activator:nth-of-type(1):checked ~ .carousel__track {
+    .carousel[data-page='1'] .carousel__track {
       transform: translateX(0px);
+      -webkit-transform: translateX(0px);
     }
-    .carousel__activator:nth-of-type(2):checked ~ .carousel__track {
+    .carousel[data-page='2'] .carousel__track {
       transform: translateX(-620px);
+      -webkit-transform: translateX(-620px);
     }
-    .carousel__activator:nth-of-type(3):checked ~ .carousel__track {
+    .carousel[data-page='3'] .carousel__track {
       transform: translateX(-1240px);
+      -webkit-transform: translateX(-1240px);
     }
             
           </pre>
@@ -223,10 +195,9 @@
           </p>
           <pre>
             
-    const handleCardTransfer = (forward) => {
-      checkboxes[currentPageIndex].removeAttribute('checked');
-      forward ? currentPageIndex++ : currentPageIndex--;
-      checkboxes[currentPageIndex].setAttribute('checked', true);
+    let handleCardTransfer = (forward) => {
+      forward ? state.currentPageIndex++ : state.currentPageIndex--;
+      carousel.dataset.page = state.currentPageIndex + 1;
     };
             
           </pre>
@@ -262,7 +233,7 @@
           <p class="explanation__content">Oder nicht...?</p>
         </article>
         <article class="explanation__article">
-          <h5 class="explanation__headline headline">
+          <h5 class="explanation__headline explanation__headline--main">
             So what about accessibility?
           </h5>
           <p class="explanation__content">
@@ -319,34 +290,42 @@
             und "tabindex" übernehmen, damit tatsächlich nur die beiden gerade
             aktiven Karten für die Navigation zur Verfügung stehen:
           </p>
-          <pre>
+          <!-- <pre>
        
-    const hideOutOfFocusCards = () => {
-      /* zuerst werden pauschal alle karten auf "unsichtbar" gesetzt */
+    let handleOutOfFocusCards = () => {
       for (let i = 0; i < cards.length; i++) {
         cards[i].setAttribute('aria-hidden', true);
-    
-        let focusableElements = cards[i].querySelectorAll(focusableElementsList);
-    
-        /* für jede karte wird über alle fokussierbaren elemente iteriert */
+        cards[i].classList.add('carousel__card--inactive');
+
+        let focusableElements = cards[i].querySelectorAll(
+          'a, button, select, textarea, input, [tabindex="0"]'
+        );
+
         for (let j = 0; j < focusableElements.length; j++) {
           focusableElements[j].setAttribute('tabindex', '-1');
         }
       }
-    
-      /* dann werden die 2 gerade aktiven karten wieder sichtbar gemacht */
-      for (let i = 2 * currentPageIndex; i <= 2 * currentPageIndex + 1; i++) {
-        cards[i].removeAttribute('aria-hidden');
-    
-        let focusableElements = cards[i].querySelectorAll(focusableElementsList);
-    
-        /* für jede karte wird über alle fokussierbaren elemente iteriert */
-        for (let j = 0; j < focusableElements.length; j++) {
-          focusableElements[j].removeAttribute('tabindex');
+
+      for (
+        let i = 2 * state.currentPageIndex;
+        i <= 2 * state.currentPageIndex + 1;
+        i++
+      ) {
+        if (i < cards.length) {
+          cards[i].removeAttribute('aria-hidden');
+          cards[i].classList.remove('carousel__card--inactive');
+
+          let focusableElements = cards[i].querySelectorAll(
+            'a, button, select, textarea, input, [tabindex="0"]'
+          );
+
+          for (let j = 0; j < focusableElements.length; j++) {
+            focusableElements[j].removeAttribute('tabindex');
+          }
         }
       }
     };
-          </pre>
+          </pre> -->
           <p class="explanation__content">
             Damit ist das Carousel nicht nur wesentlich nutzerfreundlicher für
             User, die auf assistive Technologien angewiesen sind, sondern auch
