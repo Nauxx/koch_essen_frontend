@@ -2,7 +2,6 @@
 
 html {
   box-sizing: border-box;
-  font-family: sans-serif;
 }
 
 *,
@@ -14,10 +13,8 @@ html {
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   background: rgb(51, 51, 51);
+  font-family: sans-serif;
 }
 
 a {
@@ -42,94 +39,61 @@ a {
 /* Carousel Styling */
 
 main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 50%;
-  min-width: 900px;
-  min-height: 100vh;
-  padding-bottom: 10rem;
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+  padding-top: 1px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 5rem;
   background: #fff;
 }
 
 .carousel {
-  position: relative;
-  max-width: 800px;
-  overflow: hidden;
-  margin-top: 10rem;
+  margin-top: 5rem;
+  overflow-x: hidden;
   border-radius: 15px;
-  padding: 0 3px;
 }
 
 .carousel__control {
-  position: absolute;
-  top: 35%;
-  z-index: 1;
-  padding: 0.1rem 0.5rem 0.1rem 1.5rem;
-  border: none;
-  opacity: 0.6;
-  font-size: 4rem;
-  line-height: 1.5;
-  background: #fff;
-  cursor: pointer;
-  transition: 200ms ease-in;
-}
-
-.carousel__control:hover,
-.carousel__control:focus-within {
-  transform: scale(1.1);
-}
-
-.carousel__control--forward {
-  right: -5px; /* beseitigt die unschöne lücke während des transforms */
-  padding: 0rem 0.5rem 0rem 1rem;
-  border-bottom-left-radius: 20px;
-  border-top-left-radius: 20px;
-}
-
-.carousel__control--back {
-  left: -5px;
-  padding: 0rem 1rem 0rem 0.5rem;
-  border-bottom-right-radius: 20px;
-  border-top-right-radius: 20px;
+  display: none;
 }
 
 .carousel__track {
-  display: inline-flex;
-  /* gap: 10px; */
-  padding-bottom: 0.8rem; /* damit der box shadow sichtbar bleibt */
-  padding-top: 0.13rem;
-  transition: 600ms ease-in;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 1rem;
+  border-radius: 15px;
 }
 
 .carousel__card {
-  padding-bottom: 1rem;
-  overflow: hidden;
-  margin-left: 5px;
-  margin-right: 5px;
+  flex: 0 0 90%;
+  margin-right: 10px;
+  scroll-snap-align: center;
   border-radius: 15px;
+  overflow: hidden;
+  padding-bottom: 1rem;
   background: linear-gradient(to top left, rgb(231, 231, 231), #fff 30%);
   box-shadow: 5px 5px 5px rgb(231, 231, 231);
   transition: 100ms ease-in;
-}
-
-.carousel__card:first-of-type {
-  margin-left: 0;
+  -webkit-transition: 100ms ease-in;
 }
 
 .carousel__card:last-of-type {
-  margin-right: 0;
+  margin-right: 100px;
 }
 
 .carousel__card:hover,
 .carousel__card:focus-within {
   transform: scale(1.02);
+  -webkit-transform: scale(1.02);
   box-shadow: 5px 5px 10px rgb(238, 238, 238);
 }
 
 .carousel__image {
-  width: 300px;
-  height: 180px;
+  width: 100%;
+  height: auto;
   object-fit: cover;
 }
 
@@ -139,7 +103,7 @@ main {
 
 .carousel__sub-headline {
   margin: 0rem 0 1rem 1rem;
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
 .headline {
@@ -148,28 +112,131 @@ main {
 
 .carousel__link {
   margin-left: 1rem;
-  font-size: 0.7rem;
+  font-size: 1rem;
 }
 
-/* auch hier gilt: für alle 2n+1 karten-elemente brauchen wir eine weitere "seite" */
-/* jede "seite" verschiebt sich um die breite der karte (300px) mal die anzahl der karten plus die gap (10px) mal die anzahl der karten  */
-/* in der aktuellen konfiguration also 620px pro seite */
-/* das ließe sich dynamischer mit css variablen oder noch einfacher über ein preprocessor for-loop händeln */
-.carousel__activator:nth-of-type(1):checked ~ .carousel__track {
-  transform: translateX(0px);
-}
-.carousel__activator:nth-of-type(2):checked ~ .carousel__track {
-  transform: translateX(-620px);
-}
-.carousel__activator:nth-of-type(3):checked ~ .carousel__track {
-  transform: translateX(-1240px);
+@media only screen and (min-width: 600px) {
+  main {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .carousel__card {
+    flex: 0 0 65%;
+    padding-bottom: 1rem;
+    margin-right: 20px;
+  }
+
+  .carousel__headline {
+    font-size: 1.25rem;
+    margin: 1rem 0 0 1rem;
+  }
 }
 
-/* Restliche Seite */
+@media only screen and (min-width: 800px) {
+  .carousel {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    overflow: hidden;
+    margin-top: 10rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 3px;
+  }
+
+  .carousel__control {
+    display: flex;
+    position: absolute;
+    top: 35%;
+    z-index: 1;
+    padding: 0.1rem 0.5rem 0.1rem 1.5rem;
+    border: none;
+    opacity: 0.7;
+    font-size: 4rem;
+    line-height: 1.5;
+    background: #fff;
+    cursor: pointer;
+    transition: 200ms ease-in;
+    -webkit-transition: 200ms ease-in;
+  }
+
+  .carousel__control:hover,
+  .carousel__control:focus-within {
+    transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+  }
+
+  .carousel__control--forward {
+    right: -5px;
+    padding: 0rem 0.5rem 0rem 1rem;
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+  }
+
+  .carousel__control--back {
+    left: -5px;
+    padding: 0rem 1rem 0rem 0.5rem;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+
+  .carousel__track {
+    width: max-content;
+    padding-bottom: 0.8rem;
+    padding-top: 0.13rem;
+    transition: 600ms ease-in;
+    -webkit-transition: 600ms ease-in;
+  }
+
+  .carousel__card {
+    flex: 0 1 auto;
+    margin-right: 10px;
+  }
+
+  .carousel__card--inactive {
+    opacity: 0.5;
+  }
+
+  .carousel__image {
+    width: 300px;
+    height: 180px;
+  }
+
+  .carousel__link {
+    font-size: 0.7rem;
+  }
+
+  /* maximale seitenanzahl, entspricht maximal 10 elementen im carousel */
+
+  .carousel[data-page='1'] .carousel__track {
+    transform: translateX(0px);
+    -webkit-transform: translateX(0px);
+  }
+  .carousel[data-page='2'] .carousel__track {
+    transform: translateX(-620px);
+    -webkit-transform: translateX(-620px);
+  }
+  .carousel[data-page='3'] .carousel__track {
+    transform: translateX(-1240px);
+    -webkit-transform: translateX(-1240px);
+  }
+  .carousel[data-page='4'] .carousel__track {
+    transform: translateX(-1860px);
+    -webkit-transform: translateX(-1860px);
+  }
+  .carousel[data-page='5'] .carousel__track {
+    transform: translateX(-2480px);
+    -webkit-transform: translateX(-2480px);
+  }
+}
+
+/* Explanation */
 
 h2 {
   margin-top: 3rem;
-  font-size: 2rem;
+  text-align: center;
+  font-size: 1.5rem;
 }
 
 .explanation {
@@ -177,12 +244,25 @@ h2 {
 }
 
 .explanation__article {
-  margin-top: 3rem;
-  width: 75ch;
+  margin-top: 5rem;
+  width: 100%;
+  max-width: 75ch;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .explanation__headline {
-  font-size: 1.75rem;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+}
+
+.explanation__headline--main {
+  font-size: 1.5rem;
+}
+
+.explanation__headline--sub {
+  margin-top: 4rem;
+  font-size: 1rem;
 }
 
 .explanation__content {
@@ -197,6 +277,7 @@ h2 {
 }
 
 pre {
+  white-space: pre-wrap;
   margin-top: 1rem;
   background: rgb(230, 229, 229);
 }
