@@ -1,16 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
   var carousel = (element) => {
     let carousel = document.getElementById(element);
-    let next = carousel.querySelector('#button-forward');
+    let next = carousel.querySelector('#button-next');
     let back = carousel.querySelector('#button-back');
     let cards = carousel.querySelectorAll('.carousel__card');
-
-    let initialPageIndex = 0;
+    
+    let startPageIndex = 0;
     let maxPageIndex = Math.ceil(cards.length / 2) - 1;
 
     let state = { currentPageIndex: 0 };
 
-    let handleOutOfFocusCards = () => {
+    let hideOutOfFocusCards = () => {
       for (let i = 0; i < cards.length; i++) {
         cards[i].setAttribute('aria-hidden', true);
         cards[i].classList.add('carousel__card--inactive');
@@ -43,19 +43,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     };
-    handleOutOfFocusCards();
+    hideOutOfFocusCards();
 
-    let handleArrows = () => {
+    let mountArrows = () => {
       if (state.currentPageIndex === maxPageIndex) {
         next.setAttribute('hidden', true);
       }
       if (
-        state.currentPageIndex !== initialPageIndex &&
+        state.currentPageIndex !== startPageIndex &&
         back.hasAttribute('hidden')
       ) {
         back.removeAttribute('hidden');
       }
-      if (state.currentPageIndex === initialPageIndex) {
+      if (state.currentPageIndex === startPageIndex) {
         back.setAttribute('hidden', true);
       }
       if (
@@ -68,12 +68,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let handleCardTransfer = (forward) => {
       forward ? state.currentPageIndex++ : state.currentPageIndex--;
-      carousel.dataset.page = state.currentPageIndex + 1;
+      carousel.dataset.page = state.currentPageIndex;
     };
 
     let render = () => {
-      handleArrows();
-      handleOutOfFocusCards();
+      mountArrows();
+      hideOutOfFocusCards();
     };
 
     next.addEventListener('click', () => {

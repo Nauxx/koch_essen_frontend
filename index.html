@@ -9,14 +9,13 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <main>
-      <h2>An (Almost) Pure CSS Carousel</h2>
 
+    <main>
       <section
         class="carousel"
         id="carousel"
         aria-label="carousel"
-        data-page="1"
+        data-page="0"
       >
         <!-- kurze erklärung für screen reder nutzer -->
         <p class="sr-only">
@@ -27,8 +26,8 @@
         </p>
 
         <button
-          class="carousel__control carousel__control--forward"
-          id="button-forward"
+          class="carousel__control carousel__control--next"
+          id="button-next"
           aria-label="Nächste Seite"
         >
           <span class="arrow-left" aria-hidden="true">&#8250;</span>
@@ -187,12 +186,12 @@
         next.setAttribute('hidden', true);
       }
       if (
-        state.currentPageIndex !== initialPageIndex &&
+        state.currentPageIndex !== startPageIndex &&
         back.hasAttribute('hidden')
       ) {
         back.removeAttribute('hidden');
       }
-      if (state.currentPageIndex === initialPageIndex) {
+      if (state.currentPageIndex === startPageIndex) {
         back.setAttribute('hidden', true);
       }
       if (

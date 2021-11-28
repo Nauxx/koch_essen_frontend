@@ -1,4 +1,4 @@
-/* Super basic reset etc */
+/* basic reset etc */
 
 html {
   box-sizing: border-box;
@@ -23,7 +23,7 @@ a {
 }
 
 [hidden] {
-  display: none !important;
+  display: none !important; /* if browser doesn't support hidden attribute */
 }
 
 .sr-only {
@@ -38,11 +38,12 @@ a {
 
 /* Carousel Styling */
 
+
 main {
   width: 100%;
   max-width: 900px;
   margin: auto;
-  padding-top: 1px;
+  padding-top: 1px; /* prevent margin collapse */
   padding-left: 1rem;
   padding-right: 1rem;
   padding-bottom: 5rem;
@@ -56,7 +57,7 @@ main {
 }
 
 .carousel__control {
-  display: none;
+  display: none; /* no buttons needed on mobile (for now) */
 }
 
 .carousel__track {
@@ -68,7 +69,7 @@ main {
 }
 
 .carousel__card {
-  flex: 0 0 90%;
+  flex: 0 0 90%; /* flex basis adjusts the width of card in relation to track width */
   margin-right: 10px;
   scroll-snap-align: center;
   border-radius: 15px;
@@ -81,7 +82,7 @@ main {
 }
 
 .carousel__card:last-of-type {
-  margin-right: 100px;
+  margin-right: 100px; /* give enough space to properly display last card */
 }
 
 .carousel__card:hover,
@@ -142,15 +143,14 @@ main {
     margin-top: 10rem;
     margin-left: auto;
     margin-right: auto;
-    padding: 0 3px;
+    padding: 0 3px; /* leaves a little space so cards don't get cropped */
   }
 
   .carousel__control {
-    display: flex;
+    display: flex; /* override display: none */
     position: absolute;
     top: 35%;
     z-index: 1;
-    padding: 0.1rem 0.5rem 0.1rem 1.5rem;
     border: none;
     opacity: 0.7;
     font-size: 4rem;
@@ -167,15 +167,15 @@ main {
     -webkit-transform: scale(1.1);
   }
 
-  .carousel__control--forward {
-    right: -5px;
+  .carousel__control--next {
+    right: -5px; /* takes care of gap when rescaling */
     padding: 0rem 0.5rem 0rem 1rem;
     border-bottom-left-radius: 20px;
     border-top-left-radius: 20px;
   }
 
   .carousel__control--back {
-    left: -5px;
+    left: -5px; /* takes care of gap when rescaling */
     padding: 0rem 1rem 0rem 0.5rem;
     border-bottom-right-radius: 20px;
     border-top-right-radius: 20px;
@@ -183,14 +183,14 @@ main {
 
   .carousel__track {
     width: max-content;
-    padding-bottom: 0.8rem;
-    padding-top: 0.13rem;
+    padding-bottom: 0.8rem; /* leave room to display card box shadow */
+    padding-top: 0.13rem; /* don't crop cards on rescale */
     transition: 600ms ease-in;
     -webkit-transition: 600ms ease-in;
   }
 
   .carousel__card {
-    flex: 0 1 auto;
+    flex: 0 1 auto; /* reset flex basis for fixed width */
     margin-right: 10px;
   }
 
@@ -208,36 +208,31 @@ main {
   }
 
   /* maximale seitenanzahl, entspricht maximal 10 elementen im carousel */
+  /* jede neue seite hat 620px (zwei karten plus zwei margins) */
 
-  .carousel[data-page='1'] .carousel__track {
+  .carousel[data-page='0'] .carousel__track {
     transform: translateX(0px);
     -webkit-transform: translateX(0px);
   }
-  .carousel[data-page='2'] .carousel__track {
+  .carousel[data-page='1'] .carousel__track {
     transform: translateX(-620px);
     -webkit-transform: translateX(-620px);
   }
-  .carousel[data-page='3'] .carousel__track {
+  .carousel[data-page='2'] .carousel__track {
     transform: translateX(-1240px);
     -webkit-transform: translateX(-1240px);
   }
-  .carousel[data-page='4'] .carousel__track {
+  .carousel[data-page='3'] .carousel__track {
     transform: translateX(-1860px);
     -webkit-transform: translateX(-1860px);
   }
-  .carousel[data-page='5'] .carousel__track {
+  .carousel[data-page='4'] .carousel__track {
     transform: translateX(-2480px);
     -webkit-transform: translateX(-2480px);
   }
 }
 
 /* Explanation */
-
-h2 {
-  margin-top: 3rem;
-  text-align: center;
-  font-size: 1.5rem;
-}
 
 .explanation {
   margin-top: 5rem;
